@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaiDuMap", "BaiDuMap\BaiDuMap.csproj", "{46A563FF-BE1A-4E7C-87FB-D13236A2C217}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicturePlay", "PicturePlay\PicturePlay.csproj", "{B69A629D-709D-4D1A-A3B5-EBF066F215C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppClient", "AppClient\AppClient.csproj", "{F0B4352D-C84B-4FE3-9AC4-D1E66EE06963}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46A563FF-BE1A-4E7C-87FB-D13236A2C217}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46A563FF-BE1A-4E7C-87FB-D13236A2C217}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46A563FF-BE1A-4E7C-87FB-D13236A2C217}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46A563FF-BE1A-4E7C-87FB-D13236A2C217}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B69A629D-709D-4D1A-A3B5-EBF066F215C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B69A629D-709D-4D1A-A3B5-EBF066F215C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B69A629D-709D-4D1A-A3B5-EBF066F215C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B69A629D-709D-4D1A-A3B5-EBF066F215C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0B4352D-C84B-4FE3-9AC4-D1E66EE06963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0B4352D-C84B-4FE3-9AC4-D1E66EE06963}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0B4352D-C84B-4FE3-9AC4-D1E66EE06963}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0B4352D-C84B-4FE3-9AC4-D1E66EE06963}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
