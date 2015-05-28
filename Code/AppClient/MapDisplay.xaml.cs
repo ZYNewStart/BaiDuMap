@@ -1,18 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace AppClient
@@ -20,7 +10,7 @@ namespace AppClient
     /// <summary>
     /// MapDisplay.xaml 的交互逻辑
     /// </summary>
-    public partial class MapDisplay : Window
+    public partial class MapDisplay
     {
         [DllImport("./easyusb_card_std.dll")]
         static extern unsafe int OpenUsb();
@@ -29,12 +19,12 @@ namespace AppClient
         [DllImport("./easyusb_card_std.dll")]
         static extern byte DI_Soft();
 
-        private DispatcherTimer dataDispatcher;
+        private DispatcherTimer _dataDispatcher;
         private delegate void LoadDataDelegate();
         private List<Point> mapPoints = new List<Point>();
-        private int pointIndex = 0;
-        private int initStatus = 0;
-        private int lightStatus = 0;
+        private byte _pointIndex = 0;
+        private byte _initStatus = 0;
+        private byte _lightStatus = 0;
         public MapDisplay()
         {
             InitializeComponent();
@@ -42,39 +32,39 @@ namespace AppClient
 
         private void StartSystem()
         {
-            if (dataDispatcher == null)
+            if (_dataDispatcher == null)
             {
-                dataDispatcher = new DispatcherTimer();
-                dataDispatcher.Tick += dataDispatcher_Tick;
+                _dataDispatcher = new DispatcherTimer();
+                _dataDispatcher.Tick += dataDispatcher_Tick;
             }
-            dataDispatcher.IsEnabled = true;
-            dataDispatcher.Start();
+            _dataDispatcher.IsEnabled = true;
+            _dataDispatcher.Start();
         }
 
         private void dataDispatcher_Tick(object sender, EventArgs e)
         {
-            byte io_in = 0;
-            io_in = DI_Soft();
+            byte ioIn = 0;
+            ioIn = DI_Soft();
             if (mapPoints.Count == 0)
             {
                 GetPointsData();
                 return;
             }
-            if (pointIndex >= mapPoints.Count)
+            if (_pointIndex >= mapPoints.Count)
             {
-                pointIndex = 0;
+                _pointIndex = 0;
             }
-            var currentStatus = io_in & 0x01;
-            if (currentStatus != lightStatus)
+            byte currentStatus = (byte)(ioIn & 0x01);
+            if (currentStatus != _lightStatus)
             {
-                if (currentStatus != initStatus)
+                if (currentStatus != _initStatus)
                 {
                     this.Dispatcher.BeginInvoke((Action)delegate()
                     {
-                        WebBrowser.Document.InvokeScript("SetPanoramaPosition", new object[] { mapPoints[pointIndex].X, mapPoints[pointIndex++].Y });
+                        WebBrowser.Document.InvokeScript("SetPanoramaPosition", new object[] { mapPoints[_pointIndex].X, mapPoints[_pointIndex++].Y });
                     });
                 }
-                lightStatus = currentStatus;
+                _lightStatus = currentStatus;
             }
             //I1CheckBox.IsChecked = ((io_in & 0x01) != 0);
             //I2CheckBox.IsChecked = ((io_in & 0x02) != 0);
@@ -87,8 +77,9 @@ namespace AppClient
             try
             {
                 int result  = OpenUsb();
+                if (result == -1) return;
                 StartSystem();
-                initStatus = (DI_Soft() & 0x01);
+                _initStatus = (byte)(DI_Soft() & 0x01);
                 WebBrowser.Document.InvokeScript("GetRoutePoints", new object[] { 114.341089, 22.608342, 114.348706, 22.602237 });
             }
             catch (Exception ex)
@@ -99,13 +90,20 @@ namespace AppClient
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (dataDispatcher != null)
+            if (_dataDispatcher != null)
             {
-                dataDispatcher.Stop();
-                dataDispatcher.Tick -= dataDispatcher_Tick;
-                dataDispatcher = null;
+                _dataDispatcher.Stop();
+                _dataDispatcher.Tick -= dataDispatcher_Tick;
+                _dataDispatcher = null;
             }
-            CloseUsb();
+            try
+            {
+                CloseUsb();
+            }
+            catch(Exception)
+            {
+
+            }
         }
 
         private void LoadData()
@@ -113,10 +111,9 @@ namespace AppClient
             try
             {
                 //这里传入x、y的值，调用JavaScript脚本
-                this.Dispatcher.Invoke((Action)delegate()
-                {
-                    WebBrowser.Document.InvokeScript("GetRoutePoints", new object[] { 114.341089, 22.608342, 114.348706, 22.602237 });               
-                });
+                this.Dispatcher.Invoke((Action)(() =>
+                    WebBrowser.Document.InvokeScript("GetRoutePoints",
+                        new object[] {114.341089, 22.608342, 114.348706, 22.602237})));
             }
             catch (Exception)
             {
@@ -167,10 +164,16 @@ namespace AppClient
             if (WebBrowser.ReadyState == System.Windows.Forms.WebBrowserReadyState.Complete)
             {
                 LoadDataDelegate dl = LoadData;
-                dl.BeginInvoke(ar =>
-                {
-                    dl.EndInvoke(ar);
-                }, null);
+                dl.BeginInvoke(dl.EndInvoke, null);
+            }
+        }
+
+        private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                e.Handled = true;
+                WindowState = WindowState.Minimized;
             }
         }
     }

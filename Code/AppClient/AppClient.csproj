@@ -139,6 +139,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Image\App.ico" />
+    <Content Include="Html\MapDisplay.htm" />
     <Content Include="JS\BDMapAPI.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

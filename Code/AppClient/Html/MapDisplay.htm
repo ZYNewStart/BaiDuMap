@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>百度地图的Hello World</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=OyDszy2RWczbWEyxG5xHVKU5"></script>
+        <script type="text/javascript" src="BDMapAPI.js"></script>
+        <style type="text/css">
+            body, html {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                margin: 0;
+                font-family: "微软雅黑";
+            }
+
+            #panorama {
+                height: 50%;
+                overflow: hidden;
+            }
+
+            #normal_map {
+                height: 50%;
+                overflow: hidden;
+            }
+
+            .anchorBL {
+                display: none;
+            } 
+        </style>
+
+    </head>
+    <body>
+        <div id="panorama"></div>
+        <div id="normal_map"></div>
+        <div id="points" style="display:none"></div> 
+        <script type="text/javascript">
+            var panorama = new BMap.Panorama('panorama');
+            panorama.setPosition(new BMap.Point(114.341089, 22.608342)); 
+            panorama.setPov({heading: -40, pitch: 6});
+
+            panorama.addEventListener('position_changed', function(e){
+                var pos = panorama.getPosition();
+                map.setCenter(new BMap.Point(pos.lng, pos.lat));
+                marker.setPosition(pos);
+            });
+            //ǖ?????
+            var mapOption = {
+                mapType: BMAP_NORMAL_MAP,
+                maxZoom: 18,
+                drawMargin:0,
+                enableFulltimeSpotClick: true,
+                enableHighResolution:true
+            }
+            var map = new BMap.Map("normal_map", mapOption);
+            var testpoint = new BMap.Point(114.341089, 22.608342);
+            map.centerAndZoom(testpoint, 18);
+            var marker=new BMap.Marker(testpoint);
+            var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/Mario.png", new BMap.Size(32, 70), {    //小车图片
+            //offset: new BMap.Size(0, -5),    //相当于CSS精灵
+                imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
+            });
+            marker.enableDragging();
+            map.addOverlay(marker);  
+            marker.addEventListener('dragend',function(e){
+                panorama.setPosition(e.point); //??marker?ì???λ??????
+                panorama.setPov({heading: -40, pitch: 6});}
+            );
+            //单击获取点击的经纬度
+            map.addEventListener("click",function(e){
+                alert(e.point.lng + "," + e.point.lat);
+            });
+            //去除百度地图中的Logo
+            //map.removeViewAt(1);
+            //$('#panorama div.anchorBL').hide();
+            //var pts = new Array(new BMap.Point(116.402225,39.914022),
+            //    new BMap.Point(116.402315,39.914029),
+            //    new BMap.Point(116.402584,39.914033),
+            //    new BMap.Point(116.402948, 39.91405),
+            //    new BMap.Point(116.403613, 39.914056),
+            //    new BMap.Point(116.403941, 39.914074),
+            //    new BMap.Point(116.404174, 39.914074),
+            //    new BMap.Point(116.404646, 39.914091),
+            //    new BMap.Point(116.405225, 39.914105));
+            //window.run = function() {
+            //    //var driving = new BMap.DrivingRoute(map); //驾车实例
+            //    var driving = new BMap.WalkingRoute(map);
+            //    driving.search(new BMap.Point(114.341089, 22.608342), new BMap.Point(114.348706, 22.602237));
+            //    driving.setSearchCompleteCallback(function () {
+            //        var pts = driving.getResults().getPlan(0).getRoute(0).getPath(); //通过驾车实例，获得一系列点的数组
+            //        var dragpts = driving.getResults().getPlan(0).getDragPois();
+            //        var paths = pts.length; //获得有几个点
+            //        var carMk = new BMap.Marker(pts[0], { icon: myIcon });
+            //        map.addOverlay(carMk);
+            //        i = 0;
+            //        //alert(pts.length);
+            //        //alert(dragpts.length);
+            //        function resetMkPoint(i) {
+            //            carMk.setPosition(pts[i]);
+            //            panorama.setPosition(pts[i]);
+            //            if (i < paths) {
+            //                setTimeout(function() {
+            //                    i++;
+            //                    resetMkPoint(i);
+            //                }, 500);
+            //            }
+            //        }
+
+            //        setTimeout(function() {
+            //            resetMkPoint(0);
+            //        }, 1000)
+            //    });
+            //}
+
+            //setTimeout(function(){
+            //    run();
+            //},5000);
+        </script>
+    </body>
+</html>
+
