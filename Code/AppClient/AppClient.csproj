@@ -50,9 +50,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PicturePlay">
-      <HintPath>..\PicturePlay\bin\Debug\PicturePlay.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
@@ -74,10 +71,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SystemPara.xaml.cs">
+      <DependentUpon>SystemPara.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AGVParaSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="AGVParaSetting.xaml.cs">
+      <DependentUpon>AGVParaSetting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -87,6 +94,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MapDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SystemPara.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -140,8 +151,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\App.ico" />
+    <Content Include="Dll\easyusb_card_std.dll" />
     <Content Include="Html\MapDisplay.htm" />
     <Content Include="JS\BDMapAPI.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PicturePlay\PicturePlay.csproj">
+      <Project>{b69a629d-709d-4d1a-a3b5-ebf066f215c0}</Project>
+      <Name>PicturePlay</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
