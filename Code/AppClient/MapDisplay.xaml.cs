@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
@@ -25,6 +26,9 @@ namespace AppClient
         private byte _pointIndex = 0;
         private byte _initStatus = 0;
         private byte _lightStatus = 0;
+        private Point _startPoint;
+        private Point _endPoint;
+        private byte _ioIndex;
         public MapDisplay()
         {
             InitializeComponent();
@@ -54,7 +58,7 @@ namespace AppClient
             {
                 _pointIndex = 0;
             }
-            byte currentStatus = (byte)(ioIn & 0x01);
+            byte currentStatus = (byte)(ioIn & (0x01<<_ioIndex));
             if (currentStatus != _lightStatus)
             {
                 if (currentStatus != _initStatus)
@@ -113,7 +117,7 @@ namespace AppClient
                 //这里传入x、y的值，调用JavaScript脚本
                 this.Dispatcher.Invoke((Action)(() =>
                     WebBrowser.Document.InvokeScript("GetRoutePoints",
-                        new object[] {114.341089, 22.608342, 114.348706, 22.602237})));
+                        new object[] { _startPoint.X, _startPoint.Y, _endPoint.X, _endPoint.Y })));
             }
             catch (Exception)
             {
@@ -148,6 +152,11 @@ namespace AppClient
         {
             try
             {
+                _startPoint.X = Convert.ToDouble(ConfigurationManager.AppSettings["SPLng"]);
+                _startPoint.Y = Convert.ToDouble(ConfigurationManager.AppSettings["SPLat"]);
+                _endPoint.X = Convert.ToDouble(ConfigurationManager.AppSettings["EPLng"]);
+                _endPoint.Y = Convert.ToDouble(ConfigurationManager.AppSettings["EPLat"]);
+                _ioIndex = Convert.ToByte(ConfigurationManager.AppSettings["IOIndex"]);
                 //这个文件于可执行文件放在同一目录
                 WebBrowser.Url = new Uri(System.AppDomain.CurrentDomain.BaseDirectory + "MapDisplay.htm");
                 WebBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
