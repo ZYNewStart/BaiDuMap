@@ -72,7 +72,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ImageButton.cs" />
     <Compile Include="SystemPara.xaml.cs">
       <DependentUpon>SystemPara.xaml</DependentUpon>
     </Compile>
@@ -89,10 +88,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MapDisplay.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Style\ImageButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

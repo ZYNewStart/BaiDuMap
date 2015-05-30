@@ -70,10 +70,6 @@ namespace AppClient
                 }
                 _lightStatus = currentStatus;
             }
-            //I1CheckBox.IsChecked = ((io_in & 0x01) != 0);
-            //I2CheckBox.IsChecked = ((io_in & 0x02) != 0);
-            //I3CheckBox.IsChecked = ((io_in & 0x04) != 0);
-            //I4CheckBox.IsChecked = ((io_in & 0x08) != 0);
         }
 
         private void Start_Click(object sender, RoutedEventArgs e)
@@ -83,8 +79,8 @@ namespace AppClient
                 int result  = OpenUsb();
                 if (result == -1) return;
                 StartSystem();
-                _initStatus = (byte)(DI_Soft() & 0x01);
-                WebBrowser.Document.InvokeScript("GetRoutePoints", new object[] { 114.341089, 22.608342, 114.348706, 22.602237 });
+                _initStatus = (byte)(DI_Soft() & (0x01 << _ioIndex));
+                //WebBrowser.Document.InvokeScript("GetRoutePoints", new object[] { 114.341089, 22.608342, 114.348706, 22.602237 });
             }
             catch (Exception ex)
             {
