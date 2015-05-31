@@ -75,16 +75,8 @@
     <Compile Include="SystemPara.xaml.cs">
       <DependentUpon>SystemPara.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MapDisplay.xaml">
@@ -149,12 +141,6 @@
     <Content Include="Html\MapDisplay.htm" />
     <Resource Include="Image\Set.png" />
     <Content Include="JS\BDMapAPI.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PicturePlay\PicturePlay.csproj">
-      <Project>{b69a629d-709d-4d1a-a3b5-ebf066f215c0}</Project>
-      <Name>PicturePlay</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

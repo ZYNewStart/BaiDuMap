@@ -43,12 +43,14 @@ namespace AppClient
                     cfa.AppSettings.Settings["EPLat"].Value = EPLatTextBox.Text.Trim();
                     cfa.AppSettings.Settings["IOIndex"].Value = IoComboBox.SelectedIndex.ToString();
                     cfa.Save(ConfigurationSaveMode.Modified);
-                    if (MessageBox.Show("修改成功！重启软件生效。是否立即重启软件？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    //if (MessageBox.Show("修改成功！重启软件生效。是否立即重启软件？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    if (MessageBox.Show("修改成功！是否立即关闭配置软件？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
-                        string path = Process.GetCurrentProcess().MainModule.FileName;
-                        var p = new Process {StartInfo = {FileName = path}};
-                        p.Start();
-                        Process.GetCurrentProcess().Kill();
+                        this.Close();
+                        //string path = Process.GetCurrentProcess().MainModule.FileName;
+                        //var p = new Process {StartInfo = {FileName = path}};
+                        //p.Start();
+                        //Process.GetCurrentProcess().Kill();
                     }
                 }
                 else
@@ -83,7 +85,7 @@ namespace AppClient
                 }
                 InitParamString = GetParamString();
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 MessageBox.Show("配置文件读取出错！", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
             }
